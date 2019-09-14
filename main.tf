@@ -18,8 +18,19 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "private-1" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "10.1.0.0/24"
-  
+  availability_zone = "us-east-1a"
+
   tags = {
     Name = "private-1"
+  }
+}
+
+resource "aws_subnet" "public-1" {
+  vpc_id     = "${aws_vpc.main.id}"
+  cidr_block = "10.1.1.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "public-1"
   }
 }
