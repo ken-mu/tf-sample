@@ -46,7 +46,7 @@ resource "aws_subnet" "public-1" {
 resource "aws_eip" "public-1" {
   vpc = true
   
-  tags {
+  tags = {
     Name = "public-1"
   }
 }
@@ -55,7 +55,7 @@ resource "aws_nat_gateway" "public-1" {
   allocation_id = "${aws_eip.public-1.id}"
   subnet_id = "${aws_subnet.public-1.id}"
   
-  tags {
+  tags = {
     Name = "public-1"
   }
 }
@@ -67,7 +67,7 @@ resource "aws_route_table" "public-1" {
     gateway_id = "${aws_internet_gateway.main.id}"
   }
   
-  tags {
+  tags = {
     Name = "public-1"
   }
 }
@@ -79,7 +79,7 @@ resource "aws_route_table" "private-1" {
     nat_gateway_id = "${aws_nat_gateway.public-1.id}"
   }
   
-  tags {
+  tags = {
     Name = "private-1"
   }
 }
@@ -88,7 +88,7 @@ resource "aws_route_table_association" "public-1" {
   subnet_id = "${aws_subnet.public-1.id}"
   route_table_id = "${aws_route_table.public-1.id}"
   
-  tags {
+  tags = {
     Name = "public-1"
   }
 }
@@ -97,7 +97,7 @@ resource "aws_route_table_association" "private-1" {
   subnet_id = "${aws_subnet.private-1.id}"
   route_table_id = "${aws_route_table.private-1.id}"
   
-  tags {
+  tags = {
     Name = "private-1"
   }
 }
