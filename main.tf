@@ -14,3 +14,12 @@ resource "aws_vpc" "main" {
     Name = "main"
   }
 }
+
+resource "aws_subnet" "private-1" {
+  vpc_id     = "${aws_vpc.main.vpc_id}"
+  cidr_block = "10.1.0.0/24"
+  
+  tags = {
+    Name = "${aws_subnet.private-1.name}"
+  }
+}
