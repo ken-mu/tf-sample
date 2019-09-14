@@ -20,6 +20,6 @@ resource "aws_subnet" "private-1" {
   cidr_block = "10.1.0.0/24"
   
   tags = {
-    Name = "${aws_subnet.private-1}"
+    Name = "private-1"
   }
 }
