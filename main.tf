@@ -87,17 +87,9 @@ resource "aws_route_table" "private-1" {
 resource "aws_route_table_association" "public-1" {
   subnet_id = "${aws_subnet.public-1.id}"
   route_table_id = "${aws_route_table.public-1.id}"
-  
-  tags = {
-    Name = "public-1"
-  }
 }
 
 resource "aws_route_table_association" "private-1" {
   subnet_id = "${aws_subnet.private-1.id}"
   route_table_id = "${aws_route_table.private-1.id}"
-  
-  tags = {
-    Name = "private-1"
-  }
 }
