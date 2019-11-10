@@ -125,8 +125,24 @@ resource "aws_elb" "bar" {
   }
 }
 
+data "aws_ami" "amazon-linux-2" {
+ most_recent = true
+
+
+ filter {
+   name   = "owner-alias"
+   values = ["amazon"]
+ }
+
+
+ filter {
+   name   = "name"
+   values = ["amzn2-ami-hvm*"]
+ }
+}
+
 resource "aws_instance" "foo" {
-    ami = "ami-04b2d1589ab1d972c"
+    ami = "${data.aws_ami.amazon-linux-2.id}"
     instance_type = "t2.micro"
     security_groups = ["${aws_security_group.instance.id}"]
     subnet_id = "${aws_subnet.private-1.id}"
