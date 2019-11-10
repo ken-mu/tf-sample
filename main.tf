@@ -98,6 +98,7 @@ resource "aws_elb" "bar" {
   name               = "foobar-terraform-elb"
   availability_zones = ["us-east-1a"]
   security_groups = ["${aws_security_group.elb.id}"]
+  vpc_id = "${aws_vpc.main.id}"
   
   listener {
     instance_port     = 80
