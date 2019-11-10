@@ -96,7 +96,7 @@ resource "aws_route_table_association" "private-1" {
 
 resource "aws_elb" "bar" {
   name               = "foobar-terraform-elb"
-  availability_zones = ["us-east-1a", "us-east-2b"]
+  availability_zones = ["us-east-1a"]
   security_groups = ["${aws_security_group.elb.id}"]
   
   listener {
@@ -107,8 +107,8 @@ resource "aws_elb" "bar" {
   }
   
   health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
+    healthy_threshold   = 1
+    unhealthy_threshold = 1
     timeout             = 3
     target              = "HTTP:80/"
     interval            = 30
