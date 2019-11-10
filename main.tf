@@ -143,6 +143,8 @@ resource "aws_instance" "foo" {
 
 resource "aws_security_group" "instance" {
     name = "terraform-example-instance"
+    vpc_id = "${aws_vpc.main.id}"    
+
     ingress {
         from_port = 80
         to_port = 80
@@ -164,6 +166,7 @@ resource "aws_security_group" "instance" {
 
 resource "aws_security_group" "elb" {
     name = "terraform-example-elb"
+    vpc_id = "${aws_vpc.main.id}"
 
     ingress {
         from_port = 80
