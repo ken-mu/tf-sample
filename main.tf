@@ -97,6 +97,7 @@ resource "aws_route_table_association" "private-1" {
 resource "aws_elb" "bar" {
   name               = "foobar-terraform-elb"
   availability_zones = ["us-east-1a", "us-east-2b"]
+  security_groups = ["${aws_security_group.elb.id}"]
   
   listener {
     instance_port     = 80
@@ -121,5 +122,63 @@ resource "aws_elb" "bar" {
   
   tags = {
     Name = "foobar-terraform-elb"
+  }
+}
+
+resource "aws_launch_configuration" "example" {
+    image_id = "ami-04b2d1589ab1d972c"
+    instance_type = "t2.micro"
+    security_groups = ["${aws_security_group.instance.id}"]
+
+    user_data = <<-EOF
+                #! /bin/bash
+                sudo yum update
+                sudo yum install -y httpd
+                sudo chkconfig httpd on
+                sudo service httpd start
+                echo "<h1>hello world</h1>" | sudo tee /var/www/html/index.html
+                EOF
+
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_security_group" "instance" {
+    name = "terraform-example-instance"
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+      create_before_destroy = true
+  }
+}
+
+resource "aws_security_group" "elb" {
+    name = "terraform-example-elb"
+
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
