@@ -125,10 +125,11 @@ resource "aws_elb" "bar" {
   }
 }
 
-resource "aws_launch_configuration" "example" {
+resource "aws_instance" "example" {
     image_id = "ami-04b2d1589ab1d972c"
     instance_type = "t2.micro"
     security_groups = ["${aws_security_group.instance.id}"]
+    subnet_id = "${aws_subnet.private-1.id}"
 
     user_data = <<-EOF
                 #! /bin/bash
@@ -138,10 +139,6 @@ resource "aws_launch_configuration" "example" {
                 sudo service httpd start
                 echo "<h1>hello world</h1>" | sudo tee /var/www/html/index.html
                 EOF
-
-    lifecycle {
-        create_before_destroy = true
-    }
 }
 
 resource "aws_security_group" "instance" {
