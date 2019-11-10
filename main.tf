@@ -125,8 +125,8 @@ resource "aws_elb" "bar" {
   }
 }
 
-resource "aws_instance" "example" {
-    image_id = "ami-04b2d1589ab1d972c"
+resource "aws_instance" "foo" {
+    ami = "ami-04b2d1589ab1d972c"
     instance_type = "t2.micro"
     security_groups = ["${aws_security_group.instance.id}"]
     subnet_id = "${aws_subnet.private-1.id}"
