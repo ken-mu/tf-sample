@@ -93,3 +93,33 @@ resource "aws_route_table_association" "private-1" {
   subnet_id = "${aws_subnet.private-1.id}"
   route_table_id = "${aws_route_table.private-1.id}"
 }
+
+resource "aws_elb" "bar" {
+  name               = "foobar-terraform-elb"
+  availability_zones = ["us-east-1a", "us-east-2b"]
+  
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+  
+  health_check {
+    healthy_threshold   = 1
+    unhealthy_threshold = 1
+    timeout             = 3
+    target              = "HTTP:80/"
+    interval            = 30
+  }
+  
+  instances                   = ["${aws_instance.foo.id}"]
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
+  
+  tags = {
+    Name = "foobar-terraform-elb"
+  }
+}
