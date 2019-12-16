@@ -7,6 +7,10 @@ provider "aws" {
   secret_key = var.aws_access_secret
 }
 
+module "mod_main_vpc" {
+  source = "module-sample/aws"
+}
+
 resource "aws_vpc" "main" {
   cidr_block       = "10.1.0.0/16"
 
