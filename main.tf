@@ -7,8 +7,9 @@ provider "aws" {
   secret_key = var.aws_access_secret
 }
 
-module "mod_main_vpc" {
-  source = "module-sample/aws"
+module "module-sample" {
+  source  = "app.terraform.io/yokogawa-electric/module-sample/aws"
+  version = "0.1.0"
 }
 
 resource "aws_vpc" "main" {
